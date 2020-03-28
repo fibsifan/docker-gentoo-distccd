@@ -1,13 +1,13 @@
-FROM tianon/gentoo-stage3
+FROM gentoo/stage3-amd64
 
 RUN touch /etc/init.d/functions.sh && \
-  echo 'PYTHON_TARGETS="${PYTHON_TARGETS} python2_7"' >> /etc/portage/make.conf && \
-  echo 'PYTHON_SINGLE_TARGET="python2_7"' >> /etc/portage/make.conf
+  echo 'PYTHON_TARGETS="${PYTHON_TARGETS} python3_7"' >> /etc/portage/make.conf && \
+  echo 'PYTHON_SINGLE_TARGET="python3_7"' >> /etc/portage/make.conf
 
 RUN \
   emerge --sync && \
   emerge gcc distcc && \
-  rm -rf /usr/portage/*
+  rm -rf /var/db/portage/*
 
 RUN ( \
     echo "#!/bin/sh" && \
