@@ -1,13 +1,11 @@
-FROM gentoo/stage3-amd64
+FROM gentoo/stage3-amd64:latest
 
 RUN touch /etc/init.d/functions.sh && \
   echo 'PYTHON_TARGETS="${PYTHON_TARGETS} python3_7"' >> /etc/portage/make.conf && \
   echo 'PYTHON_SINGLE_TARGET="python3_7"' >> /etc/portage/make.conf
 
-RUN \
-  emerge --sync && \
-  emerge gcc distcc && \
-  rm -rf /var/db/portage/*
+RUN --mount=type=cache,target=/var/db/repos emerge --sync
+RUN --mount=type=tmpfs,target=/var/tmp/portage emerge gcc distcc
 
 RUN ( \
     echo "#!/bin/sh" && \
